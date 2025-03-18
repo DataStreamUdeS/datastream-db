@@ -61,15 +61,19 @@ CREATE TABLE Fournisseurs(
 
 CREATE TABLE StationsFournisseurs(
     FournisseurID INT,
-    NoStation INT,
-    NomStation Text,
+    NoStation TEXT,
+    NomStation TEXT,
+    AncienNom TEXT,
     PRIMARY KEY(NoStation, NomStation)
 );
 
+CREATE TYPE TypePluvio AS ENUM ('oui', 'non')
+
 CREATE TABLE Releves(
     ReleveID INT PRIMARY KEY,
-    NoStation INT,
+    NoStation TEXT,
     NoProjet INT,
+    Pluviometrie ¨TypePluvio,
     TimeStamp TIMESTAMPTZ,
     Description TEXT
 );
@@ -85,7 +89,7 @@ CREATE TABLE Projets(
 
 CREATE TABLE ProjetsStations(
     NoProjet INT,
-    NoStation INT,
+    NoStation TEXT,
     PRIMARY KEY(NoProjet, NoStation)
 );
 
@@ -97,11 +101,14 @@ CREATE TABLE Responsables(
     Telephone TEXT
 );
 
+CREATE TYPE TypeStation AS ENUM ('Lac', 'Tributaire')
+
 CREATE TABLE Stations(
-    NoStation INT PRIMARY KEY,
+    NoStation TEXT PRIMARY KEY,
     PositionID INT,
     BassinID INT,
-    DateCreation TIMESTAMPTZ
+    DateCreation TIMESTAMPTZ,
+    Type TypeStation NOT NULL
 );
 
 CREATE TABLE Symboles(
