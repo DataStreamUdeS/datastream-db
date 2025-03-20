@@ -12,6 +12,6 @@ if psql -U "$POSTGRES_USER" -d datastream_db -tc "SELECT 1 FROM pg_database WHER
 else
   echo "Creating database datastream_db..."
   psql -U "$POSTGRES_USER" -d datastream_db -c "CREATE DATABASE datastream_db;"
-  psql -U "$POSTGRES_USER" -d datastream_db -f /docker-entrypoint-initdb.d/init.sql
+  psql -U "$POSTGRES_USER" -d datastream_db -f /docker-entrypoint-initdb.d/creationBD.sql
   psql -U "$POSTGRES_USER" -d datastream_db -f /docker-entrypoint-initdb.d/populate.sql
 fi
