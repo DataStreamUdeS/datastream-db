@@ -15,7 +15,8 @@ CREATE OR REPLACE PROCEDURE createMesureTable (_MesureName VARCHAR(50))
             MeasuringDevice VARCHAR,
             Methode VARCHAR,
             Comments VARCHAR,
-            DetectableLimit VARCHAR
+            DetectableLimit VARCHAR,
+            IdLaboAnalyse VARCHAR
         )', metaName);
         EXECUTE format('
             CREATE TABLE %I (
@@ -26,7 +27,7 @@ CREATE OR REPLACE PROCEDURE createMesureTable (_MesureName VARCHAR(50))
             PositionID INT,
             MetadataID INT, 
             SymboleID INT,
-            Value FLOAT
+            Value FLOAT,
         )', mesureName);
         EXECUTE format('
             ALTER TABlE %I
@@ -61,19 +62,15 @@ CREATE TABLE Fournisseurs(
 
 CREATE TABLE StationsFournisseurs(
     FournisseurID INT,
-    NoStation TEXT,
-    NomStation TEXT,
-    AncienNom TEXT,
+    NoStation INT,
+    NomStation Text,
     PRIMARY KEY(NoStation, NomStation)
 );
 
-CREATE TYPE TypePluvio AS ENUM ('oui', 'non')
-
 CREATE TABLE Releves(
     ReleveID INT PRIMARY KEY,
-    NoStation TEXT,
+    NoStation INT,
     NoProjet INT,
-    Pluviometrie ¨TypePluvio,
     TimeStamp TIMESTAMPTZ,
     Description TEXT
 );
@@ -89,7 +86,7 @@ CREATE TABLE Projets(
 
 CREATE TABLE ProjetsStations(
     NoProjet INT,
-    NoStation TEXT,
+    NoStation INT,
     PRIMARY KEY(NoProjet, NoStation)
 );
 
@@ -101,14 +98,10 @@ CREATE TABLE Responsables(
     Telephone TEXT
 );
 
-CREATE TYPE TypeStation AS ENUM ('Lac', 'Tributaire')
-
 CREATE TABLE Stations(
-    NoStation TEXT PRIMARY KEY,
-    PositionID INT,
-    BassinID INT,
-    DateCreation TIMESTAMPTZ,
-    Type TypeStation NOT NULL
+    NoStation INT PRIMARY KEY,
+    Longitude FLOAT,
+    Latitude FLOAT
 );
 
 CREATE TABLE Symboles(
@@ -172,11 +165,3 @@ ALTER TABLE Releves
     ADD CONSTRAINT fk_Releves_NoProjet
     FOREIGN KEY (NoProjet)
     REFERENCES Projets(NoProjet);
-
-
-CALL createMesureTable('pH');
-CALL createMesureTable('Temperature');
-CALL createMesureTable('Phosphore');
-    
--- CREATE EXTENSION postgis;
-

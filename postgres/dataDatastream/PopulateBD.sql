@@ -1,13 +1,13 @@
-INSERT INTO Fournisseurs (
-    FournisseurID,
-    Nom,
-    Acronyme,
-    AncienNom
-)
-VALUES
-    (0, 'Fournisseur0', 'FNS0', ''),
-    (1, 'Fournisseur1', 'FNS1', ''),
-    (2, 'Fournisseur2', 'FNS2', 'AnicienNom');
+-- INSERT INTO Fournisseurs (
+--     FournisseurID,
+--     Nom,
+--     Acronyme,
+--     AncienNom
+-- )
+-- VALUES
+--     (0, 'Fournisseur0', 'FNS0', ''),
+--     (1, 'Fournisseur1', 'FNS1', ''),
+--     (2, 'Fournisseur2', 'FNS2', 'AnicienNom');
 
 -- INSERT INTO Stations (
 --     NoStation,
