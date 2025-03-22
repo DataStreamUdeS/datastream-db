@@ -1,4 +1,5 @@
-#!/bin/bash
+#!/bin/sh
+set -e
 echo "Waiting for PostgreSQL to start..."
 until pg_isready -U postgres; do
     sleep 2
