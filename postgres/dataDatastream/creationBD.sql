@@ -9,7 +9,7 @@ CREATE OR REPLACE PROCEDURE createMesureTable (_MesureName VARCHAR(50))
         mesureName := 'Mesure' || _MesureName;
         EXECUTE format('
             CREATE TABLE %I (
-            MetadataID SERIAL PRIMARY KEY,
+            MetadataID INT PRIMARY KEY,
             DateUodated TIMESTAMP,
             DataSource VARCHAR,
             MeasuringDevice VARCHAR,
@@ -19,7 +19,7 @@ CREATE OR REPLACE PROCEDURE createMesureTable (_MesureName VARCHAR(50))
         )', metaName);
         EXECUTE format('
             CREATE TABLE %I (
-            ID SERIAL PRIMARY KEY,
+            ID INT PRIMARY KEY,
             NoProjet INT,
             ReleveID INT,
             Timestamp TIMESTAMP,
@@ -51,12 +51,14 @@ CREATE OR REPLACE PROCEDURE createMesureTable (_MesureName VARCHAR(50))
     END
     
     $func$;
+
 CREATE TABLE Fournisseurs(
-    FournisseurID SERIAL PRIMARY KEY,
+    FournisseurID INT PRIMARY KEY,
     Nom TEXT,
     Acronyme TEXT,
     AncienNom TEXT
 );
+
 CREATE TABLE StationsFournisseurs(
     FournisseurID INT,
     NoStation TEXT,
@@ -64,36 +66,43 @@ CREATE TABLE StationsFournisseurs(
     AncienNom TEXT,
     PRIMARY KEY(NoStation, NomStation)
 );
+
 CREATE TYPE TypePluvio AS ENUM ('oui', 'non');
+
 CREATE TABLE Releves(
-    ReleveID SERIAL PRIMARY KEY,
+    ReleveID INT PRIMARY KEY,
     NoStation TEXT,
-    NoProjet TEXT,
+    NoProjet INT,
     Pluviometrie TypePluvio,
     TimeStamp TIMESTAMPTZ,
     Description TEXT
 );
+
 CREATE TABLE Projets(
-    NoProjet TEXT PRIMARY KEY,
+    NoProjet INT PRIMARY KEY,
     NomProjet TEXT,
     ResponsableID INT,
     Descritpion TEXT,
     Objectif TEXT,
     Protocole TEXT
 );
+
 CREATE TABLE ProjetsStations(
-    NoProjet TEXT,
+    NoProjet INT,
     NoStation TEXT,
     PRIMARY KEY(NoProjet, NoStation)
 );
+
 CREATE TABLE Responsables(
-    ResponsableID SERIAL PRIMARY KEY,
+    ResponsableID INT PRIMARY KEY,
     Nom TEXT,
     Societe TEXT,
     Couriel TEXT,
     Telephone TEXT
 );
+
 CREATE TYPE TypeStation AS ENUM ('Lac', 'Tributaire');
+
 CREATE TABLE Stations(
     NoStation TEXT PRIMARY KEY,
     NAD83_Latitude FLOAT,
@@ -102,6 +111,7 @@ CREATE TABLE Stations(
     Description TEXT,
     Type TypeStation NOT NULL
 );
+
 CREATE TABLE Symboles(
     SymboleID INT PRIMARY KEY,
     TypeMesureID INT,
@@ -109,23 +119,29 @@ CREATE TABLE Symboles(
     SymboleDescription TEXT,
     Units TEXT
 );
+
 CREATE TABLE Mesures(
     MesureID INT PRIMARY KEY,
     TypeMesureID INT
 );
+
 CREATE TABLE TypesMesures(
     TypeMesureID INT PRIMARY KEY,
     TypeName TEXT,
     TypeDescription TEXT
 );
+
+
 ALTER TABLE Mesures
     ADD CONSTRAINT fk_Mesure_TypeMesure
     FOREIGN KEY (TypeMesureID)
     REFERENCES TypesMesures(TypeMesureID);
+
 ALTER TABLE Symboles
     ADD CONSTRAINT fk_Symbole_MesureTypeID
     FOREIGN KEY (TypeMesureID)
     REFERENCES TypesMesures(TypeMesureID);
+
 ALTER TABLE ProjetsStations
     ADD CONSTRAINT fk_ProjetStation_ProjetID
     FOREIGN KEY (NoProjet)
@@ -134,10 +150,12 @@ ALTER TABLE ProjetsStations
     ADD CONSTRAINT fk_ProjetStation_StationID
     FOREIGN KEY (NoStation)
     REFERENCES Stations(NoStation);
+
 ALTER TABLE Projets
     ADD CONSTRAINT fk_Projets_ResponsableID
-    FOREIGN KEY (ResponsableID)
+    FOREIGN KEY (NoProjet)
     REFERENCES Responsables(ResponsableID);
+
 ALTER TABLE StationsFournisseurs
     ADD CONSTRAINT fk_StationsFournisseurs_FournisseurID
     FOREIGN KEY (FournisseurID)
@@ -146,6 +164,7 @@ ALTER TABLE StationsFournisseurs
     ADD CONSTRAINT fk_StationsFournisseurs_NoStation
     FOREIGN KEY (NoStation)
     REFERENCES Stations(NoStation);
+
 ALTER TABLE Releves
     ADD CONSTRAINT fk_Mesures_NoStation
     FOREIGN KEY (NoStation)
@@ -154,3 +173,4 @@ ALTER TABLE Releves
     ADD CONSTRAINT fk_Releves_NoProjet
     FOREIGN KEY (NoProjet)
     REFERENCES Projets(NoProjet);
+
