@@ -1,6 +1,4 @@
 version: "3.8"
-networks:
-  network_datastream:
 services:
   postgresql_datastream:
     image: postgres
@@ -15,5 +13,3 @@ services:
       - 5432:5432  
     volumes:
       - ./postgres/dataDatastream:/var/lib/postgresql/dataDatastream
-    networks:
-      - network_datastream
