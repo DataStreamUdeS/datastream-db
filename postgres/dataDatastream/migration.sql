@@ -1,7 +1,7 @@
 -- Active: 1742397105088@@127.0.0.1@5432@datastream_db
 
 CREATE EXTENSION postgres_fdw;
-CREATE SERVER link_cogesaf_db_s FOREIGN DATA WRAPPER postgres_fdw OPTIONS (host 'postgresql_datastream', port '5432', dbname 'cogesaf_db');
+CREATE SERVER link_cogesaf_db_s FOREIGN DATA WRAPPER postgres_fdw OPTIONS (host 'postgresql_cogesaf', port '5432', dbname 'cogesaf_db');
 GRANT USAGE ON FOREIGN SERVER link_cogesaf_db_s TO postgres;
 CREATE USER MAPPING FOR postgres SERVER link_cogesaf_db_s OPTIONS (user 'postgres');
 CREATE SCHEMA link_cogesaf_db;
