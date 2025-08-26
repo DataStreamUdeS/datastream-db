@@ -5,7 +5,8 @@ RUN apt-get update && apt-get install -y dos2unix
 # COPY /creationBD.sql /docker-entrypoint-initdb.d
 # COPY /migration.sql /docker-entrypoint-initdb.d
 COPY /creationBD.sql /home
-COPY /migration.sql /home
+COPY /migration_export.sql /home
+COPY /migration_import.sql /home
 COPY /pg_convergence.tar /home
 COPY /init_cogesaf.sh /docker-entrypoint-initdb.d/init.sh
 RUN dos2unix /docker-entrypoint-initdb.d/init.sh
