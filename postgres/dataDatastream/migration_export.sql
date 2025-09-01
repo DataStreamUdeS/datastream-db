@@ -19,8 +19,10 @@ COPY(SELECT DISTINCT "nom" FROM public."fournisseurs")
 COPY(
     SELECT DISTINCT 
         st."NO_STATION" AS "NoStation",
-        fn."FournisseurID" AS "FournisseurID"
+        fn."FournisseurID" AS "FournisseurID", 
+        ist."NOM_STATION" AS "AncienNom"
     FROM public."STATION" AS st INNER JOIN public."fournisseurs" AS fn ON st."NO_STATION" = fn."nom"
+        LEFT JOIN public."IDENT_STATION" AS ist
     )
     TO '/tmp/stationsfournisseurs.csv' (format csv, delimiter ';');
 CREATE TABLE responsables AS

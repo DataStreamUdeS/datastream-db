@@ -4,7 +4,7 @@ COPY public."stations" ("nostation", "nad83_latitude", "nad83_longitude", "descr
 FROM '/tmp/stations.csv' (format csv, delimiter ';');
 COPY public."fournisseurs" ("nom")
 FROM '/tmp/fournisseurs.csv' (format csv, delimiter ';');
-COPY public."stationsfournisseurs" ("nostation", "fournisseurid")
+COPY public."stationsfournisseurs" ("nostation", "fournisseurid", "anciennom")
 FROM '/tmp/stationsfournisseurs.csv' (format csv, delimiter ';');
 COPY public."responsables" ("nom")
 FROM '/tmp/responsables.csv' (format csv, delimiter ';');
