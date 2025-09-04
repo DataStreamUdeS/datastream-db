@@ -24,7 +24,6 @@ CREATE OR REPLACE PROCEDURE createMesureTable(_MesureName VARCHAR(50))
             NoProjet TEXT,
             ReleveID INT,
             Timestamp TIMESTAMP,
-            PositionID INT,
             MetadataID INT, 
             SymboleID INT,
             Value FLOAT
@@ -57,7 +56,6 @@ CREATE OR REPLACE PROCEDURE createMesureTable(_MesureName VARCHAR(50))
     END
 $func$;
 
--- DROP PROCEDURE IF EXISTS createMesureTable;
 
 CREATE TABLE Fournisseurs(
     FournisseurID SERIAL PRIMARY KEY,
@@ -66,11 +64,11 @@ CREATE TABLE Fournisseurs(
     AncienNom TEXT
 );
 CREATE TABLE StationsFournisseurs(
-    FournisseurID INT,
     NoStation TEXT,
+    FournisseurID INT,
     NomStation TEXT,
     AncienNom TEXT,
-    PRIMARY KEY(NoStation, NomStation)
+    PRIMARY KEY(NoStation, FournisseurID)
 );
 CREATE TABLE StationDoublons(
     NoStation1 TEXT,
@@ -83,9 +81,9 @@ CREATE TABLE Releves(
     ReleveID SERIAL PRIMARY KEY,
     NoStation TEXT,
     NoProjet TEXT,
-    Pluviometrie TypePluvio,
     TimeStamp TIMESTAMPTZ,
-    Description TEXT
+    Description TEXT,
+    Pluviometrie TypePluvio
 );
 CREATE TABLE Projets(
     NoProjet TEXT PRIMARY KEY,
