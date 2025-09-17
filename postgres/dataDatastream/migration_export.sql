@@ -22,7 +22,8 @@ COPY(
         fn."FournisseurID" AS "FournisseurID", 
         ist."NOM_STATION" AS "AncienNom"
     FROM public."STATION" AS st INNER JOIN public."fournisseurs" AS fn ON st."NO_STATION" = fn."nom"
-        LEFT JOIN public."IDENT_STATION" AS ist
+        LEFT JOIN public."IDENT_STATION" AS ist 
+            ON ist."NO_STATION" = st."NO_STATION"
     )
     TO '/tmp/stationsfournisseurs.csv' (format csv, delimiter ';');
 CREATE TABLE responsables AS

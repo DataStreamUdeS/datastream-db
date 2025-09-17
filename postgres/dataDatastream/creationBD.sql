@@ -1,3 +1,6 @@
+CREATE SEQUENCE sequence_id_mesure;
+CREATE SEQUENCE sequence_id_meta;
+
 CREATE OR REPLACE PROCEDURE createMesureTable(_MesureName VARCHAR(50))
     LANGUAGE plpgsql AS
     $func$
@@ -9,7 +12,9 @@ CREATE OR REPLACE PROCEDURE createMesureTable(_MesureName VARCHAR(50))
         mesureName := 'Mesure_' || _MesureName;
         EXECUTE format('
             CREATE TABLE %I (
-            MetadataID SERIAL PRIMARY KEY,
+            MetadataID INT NOT NULL 
+                DEFAULT nextval(''sequence_id_meta'') 
+                PRIMARY KEY,
             DateUpdated TIMESTAMP,
             DataSource VARCHAR,
             MeasuringDevice VARCHAR,
@@ -20,7 +25,9 @@ CREATE OR REPLACE PROCEDURE createMesureTable(_MesureName VARCHAR(50))
         )', metaName);
         EXECUTE format('
             CREATE TABLE %I (
-            ID SERIAL PRIMARY KEY,
+            ID INT NOT NULL
+                DEFAULT nextval(''sequence_id_mesure'')
+                PRIMARY KEY,
             NoProjet TEXT,
             ReleveID INT,
             Timestamp TIMESTAMP,
@@ -352,4 +359,3 @@ BEGIN
 END;
 $$;
 
-CALL createMesureTable('TEST');
