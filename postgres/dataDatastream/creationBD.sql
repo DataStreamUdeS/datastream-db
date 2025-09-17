@@ -119,7 +119,7 @@ CREATE TABLE Stations(
     NAD83_Longitude FLOAT,
     DateCreation TIMESTAMPTZ,
     Description TEXT,
-    Type TypeStation NOT NULL,
+    Type TypeStation,
     IDBassinVersant INT
 );
 

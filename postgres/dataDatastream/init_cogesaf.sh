@@ -21,11 +21,12 @@ until psql -U "$POSTGRES_USER" -d cogesaf_db -c "SELECT 1;" > /dev/null 2>&1; do
 done
 echo "Creating database datastream_db..."
 psql -U "$POSTGRES_USER" -d datastream_db -c "CREATE DATABASE datastream_db;"
-touch /tmp/stations.csv
-touch /tmp/fournisseurs.csv
-touch /tmp/stationsfournisseurs.csv
-touch /tmp/responsables.csv
-touch /tmp/projets.csv
+# touch /tmp/stations.csv
+# touch /tmp/fournisseurs.csv
+# touch /tmp/stationsfournisseurs.csv
+# touch /tmp/responsables.csv
+# touch /tmp/projets.csv
 psql -U "$POSTGRES_USER" -d datastream_db -f /home/creationBD.sql
 psql -U "$POSTGRES_USER" -d cogesaf_db -f /home/migration_export.sql
 psql -U "$POSTGRES_USER" -d datastream_db -f /home/migration_import.sql
+psql -U "$POSTGRES_USER" -d datastream_db -f /home/Function.sql
